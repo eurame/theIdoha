@@ -62,7 +62,13 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
     this.anyadirEtiqueta = function(etiqueta){
         this.etiquetas.push(etiqueta);
     }
-
+    this.mostrarGastoCompleto = function(){
+        let text = `Gasto correspondiente a ${toString(this.descripcion)} con valor ${toLocaleString(this.valor)}. \nFecha: ${toString(this.fecha)}\nEtiquetas: `;
+        for (let i; i < this.etiquetas.length; i++){
+            text = text + `${this.etiquetas[i]}\n`; 
+        }
+        return text;
+    }
 }
 
 //Practica Fundamentos 2
@@ -77,6 +83,12 @@ function anyadirGasto(gasto) {
     gastos.push(gasto);
     
 }
+function borrarGasto(gasto){
+    let id = gastos.indexOf(gasto);
+    if (id > -1){
+        gastos.slice(id, gasto);
+    }
+}
 
 
 
@@ -87,5 +99,8 @@ function anyadirGasto(gasto) {
 export {
     mostrarPresupuesto,
     actualizarPresupuesto,
-    CrearGasto
+    CrearGasto,
+    listarGastos,
+    anyadirGasto,
+    borrarGasto
 }
