@@ -1,11 +1,20 @@
 // TODO: Crear las funciones, objetos y variables indicadas en el enunciado
 
-
 // TODO: Variable global
 
 let presupuesto = 0;
 let gastos = [];
 let idGasto = 0;
+
+function validarFecha(fecha){
+    let valido = true;
+    let fechaRes = Date.parse(fecha);
+    if (isNaN(fechaRes) || fecha === undefined){
+        valido = false;
+    }
+    return valido;
+}
+
 
 function actualizarPresupuesto(nuevoPresupuesto) {
     // TODO
@@ -29,7 +38,7 @@ function mostrarPresupuesto() {
     return "Tu presupuesto actual es de " + parseFloat(presupuesto) + " €";
 }
 
-function CrearGasto(descripcion, valor, fecha, etiquetas) {
+function CrearGasto(descripcion, valor, fecha, ...etiqueta) {
     this.descripcion = descripcion;
     if (valor < 0 || isNaN(valor)) {
         this.valor = 0;
@@ -37,14 +46,19 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
     else {
         this.valor = valor;
     }
-    let fechaRes = Date.parse(fecha);
-    if (isNaN(fechaRes) || typeof fechaRes === "undefined" || fechaRes === "NaN"){
+    if (validarFecha(fecha === false)) {
         this.fecha = Date.now();
     }
     else{
         this.fecha = fecha;
     }
-    this.etiquetas = [];
+    if (etiqueta === undefined || isNaN(etiqueta)){
+        this.etiquetas = [];
+    }
+    else {
+        this.etiquetas = [];
+        this.etiquetas.push(etiqueta);
+    }
     this.mostrarGasto = function(){
         return `Gasto correspondiente a ${this.descripcion} con valor ${this.valor} €`;
     }
@@ -59,7 +73,7 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
             this.valor = 100.58;
         }
     }
-    this.anyadirEtiqueta = function(etiqueta){
+    this.anyadirEtiqueta = function(...etiqueta){
         this.etiquetas.push(etiqueta);
     }
     this.mostrarGastoCompleto = function(){
@@ -68,6 +82,11 @@ function CrearGasto(descripcion, valor, fecha, etiquetas) {
             text = text + `${this.etiquetas[i]}\n`; 
         }
         return text;
+    }
+    this.actualizarFecha = function(newFecha){
+        if (validarFecha(newFecha) === true){
+            this.fecha = newFecha;
+        }
     }
 }
 
@@ -89,6 +108,12 @@ function borrarGasto(gasto){
         gastos.slice(id, gasto);
     }
 }
+function calcularTotalGastos(){
+
+}
+function calcularBalance(){
+
+}
 
 
 
@@ -102,5 +127,7 @@ export {
     CrearGasto,
     listarGastos,
     anyadirGasto,
-    borrarGasto
+    borrarGasto,
+    calcularTotalGastos,
+    calcularBalance
 }
